@@ -1,4 +1,3 @@
-- Button to download MP3 or actual video(Delete video file)
 - Display YouTube video title on download window before choosing to download (https://github.com/yt-dlp/yt-dlp/blob/a9d4da606d401b70b307fe69336c5166e5304d2c/yt_dlp/YoutubeDL.py#L1261-L1276,
     ydl.extract_info("some url", download=False))
 - Stylize the download window
