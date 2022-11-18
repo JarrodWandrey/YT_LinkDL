@@ -26,8 +26,6 @@ class DownloadWindow:
             videoLink = ydl.extract_info(fullstring,download=False)
         self.dlbar = dlbar = Progressbar(label_frame, orient= HORIZONTAL, length= 400, mode= "determinate")
         dlbar.place(x=50, y=100)
-        video_url = Label(self.window, text=fullstring)
-        video_url.place(x=100, y=75)
         videotitle = Label(self.window, text=videoLink['title'])
         videotitle.place(x=100, y=20)
         window.mainloop()
