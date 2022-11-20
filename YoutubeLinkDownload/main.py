@@ -14,7 +14,7 @@ class DownloadWindow:
         window.geometry('500x250+1000+300')
         window.update()
         window.title("New Link Detected")
-        label_frame = LabelFrame(window, text=('Download youtube link?'))
+        label_frame = LabelFrame(window, text=('Download youtube link?'),background="grey")
         label_frame.pack(expand = 'yes', fill = 'both')
         btn1 = Button(label_frame, text = 'WEBM Download', command= partial(self.downloadlink, True))
         btn1.place(x=100,y=150)
@@ -23,11 +23,11 @@ class DownloadWindow:
         btn3 = Button(label_frame, text = 'Exit', command= window.destroy)
         btn3.place(x=450, y=0)
         with yt_dlp.YoutubeDL() as ydl:
-            videoLink = ydl.extract_info(fullstring,download=False)
+            videoLink = ydl.extract_info(fullstring, download=False)
         self.dlbar = dlbar = Progressbar(label_frame, orient= HORIZONTAL, length= 400, mode= "determinate")
         dlbar.place(x=50, y=100)
-        videotitle = Label(self.window, text=videoLink['title'])
-        videotitle.place(x=100, y=20)
+        videotitle = Label(self.window, text=videoLink['title'], font=20,background="grey")
+        videotitle.place(x=90, y=50)
         window.mainloop()
 
     def downloadlink(self, isVideo):
