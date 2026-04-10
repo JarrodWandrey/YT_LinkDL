@@ -1,0 +1,1 @@
+# Logic for detecting clipboard contents and validation
