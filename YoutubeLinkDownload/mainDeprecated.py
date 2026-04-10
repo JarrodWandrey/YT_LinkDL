@@ -5,6 +5,8 @@ from functools import partial
 import yt_dlp
 import time
 
+
+[DeprecationWarning("mainDeprecated.py is deprecated and will be removed in future versions. A new implementation is coming soon.")]
 downloads = [] #list to store all previously downloaded youtube links
 fullstring = ''
 class DownloadWindow:
