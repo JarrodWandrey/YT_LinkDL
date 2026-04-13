@@ -4,9 +4,6 @@ from tkinter import ttk
 from tkinter.ttk import Style, Progressbar
 from functools import partial
 
-from tkinter import *
-from tkinter import ttk
-
 def CreateWindow():
     window = Tk()
     window.geometry('500x250')
