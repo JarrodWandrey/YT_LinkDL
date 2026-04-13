@@ -1,5 +1,5 @@
 import argparse
-from . import clipboard, history, download, gui
+import clipboard, history, download, gui
 
 def main():
     # Creates an arugment to allow for the program to run headless for multiple downloads, or with a GUI for single downloads
@@ -8,9 +8,9 @@ def main():
     args = parser.parse_args()
 
     if args.watch:
-        clipboard.watch_clipboard()
+        clipboard.start_watching()
     else:
-        pass
+        gui.CreateWindow()
 
 if __name__ == "__main__":
     main()
