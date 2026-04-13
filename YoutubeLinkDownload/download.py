@@ -4,7 +4,7 @@ import yt_dlp
 def download_link(link, is_video):
     ydl_opts = {
         'format': 'bestaudio/best',
-        'progress_hooks': [self.Progress]
+        'progress_hooks': [Progress]
     }
 
     if not is_video:
@@ -15,8 +15,8 @@ def download_link(link, is_video):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([link])
 
-def Progress(self, data):
-    if self.donedownloading or data["status"] == "error":
+def Progress(data):
+    if data["status"] == "error":
         return
     pcomplete = (data["downloaded_bytes"] / data["total_bytes"])*100 #calculation for completed progress shown on bar
     print(f"\n{pcomplete}")
