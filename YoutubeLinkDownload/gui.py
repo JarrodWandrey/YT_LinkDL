@@ -92,9 +92,13 @@ class TwoInputDialog(simpledialog.Dialog):
         self.link_entry = ttk.Entry(master, width=20)
         self.link_entry.grid(row=0, column=1, padx=5, pady=5)
 
-        self.location_entry = ttk.Button(master, text="Select Folder", command=filedialog.askdirectory)
+        self.location_entry = ttk.Button(master, text="Select Folder", command=self.select_folder)
         self.location_entry.grid(row=1, column=1, padx=5, pady=5)
         return self.link_entry  # initial focus
+    
+    def select_folder(self):
+        folder_selected = filedialog.askdirectory()
+        self.location_entry.config(text=folder_selected)
 
     def apply(self):
-        self.result = (self.link_entry.get(), self.location_entry)
+        self.result = (self.link_entry.get(), self.location_entry.cget("text"))

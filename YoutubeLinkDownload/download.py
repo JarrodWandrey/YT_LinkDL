@@ -5,12 +5,16 @@ import clipboard
 
 os.environ["SSL_CERT_FILE"] = ''
 
-def download_link(link: str, is_video: bool, download_location: str = "./Downloads/"):
+def download_link(link: str, is_video: bool, download_location: str):
+    if not download_location or download_location == 'Select Folder':
+        download_location = os.getcwd()
+    download_location = os.path.abspath(download_location)
+    os.makedirs(download_location, exist_ok=True)
+
     ydl_opts = {
-        'format': 'bestaudio/best',
         'nocheckcertificate': True,
         'no_warnings': True,
-        'outtmpl': f'{download_location}%(title)s.%(ext)s',
+        'outtmpl': os.path.join(download_location, '%(title)s.%(ext)s'),
     }
 
     valid = clipboard.is_youtube_link(link)
@@ -19,14 +23,13 @@ def download_link(link: str, is_video: bool, download_location: str = "./Downloa
         return
 
     if not is_video:
+        ydl_opts['format'] = 'bestaudio/best'
         ydl_opts['postprocessors'] = [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3'}]
     else:
-        ydl_opts['postprocessors'] = [{
-            'key': 'FFmpegVideoConvertor',
-            'preferedformat': 'webm'}]
-            
+        ydl_opts['format'] = 'best[ext=webm]/best'
+
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([link])
 
