@@ -1,6 +1,6 @@
 # All logic regarding tkinter UI
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, simpledialog, filedialog
 from tkinter.ttk import Style, Progressbar
 from functools import partial
 import download
@@ -14,12 +14,20 @@ def CreateWindow():
     main_frame = ttk.Frame(window, padding=15)
     main_frame.pack(fill="both", expand=True)
 
+    #Get video title and download location in pop up window
+    dialog = TwoInputDialog(window, title="YouTube Link Download")
+    if dialog.result is None:
+        window.destroy()
+        return
+    video_link, download_location = dialog.result
+    video_title = download.get_video_metadata(video_link)['title']
+
     # Title label
     title_label = ttk.Label(main_frame, text="Download YouTube Link?", font=("Segoe UI", 14, "bold"))
     title_label.grid(row=0, column=0, columnspan=2, pady=(0, 10))
 
     # Video title
-    video_label = ttk.Label(main_frame, text="Will have to think of something", font=("Segoe UI", 10))
+    video_label = ttk.Label(main_frame, text=video_title, font=("Segoe UI", 10))
     video_label.grid(row=1, column=0, columnspan=2, pady=(0, 10))
 
     # Progress bar
@@ -30,10 +38,10 @@ def CreateWindow():
     button_frame = ttk.Frame(main_frame)
     button_frame.grid(row=3, column=0, columnspan=2, pady=10)
 
-    btn1 = ttk.Button(button_frame, text='Download WEBM', command=partial(download.download_link, is_video=True))
+    btn1 = ttk.Button(button_frame, text='Download WEBM', command=partial(download.download_link, link=video_link, is_video=True, download_location=download_location))
     btn1.grid(row=0, column=0, padx=10)
 
-    btn2 = ttk.Button(button_frame, text='Download MP3', command=partial(download.download_link, is_video=False))
+    btn2 = ttk.Button(button_frame, text='Download MP3', command=partial(download.download_link, link=video_link, is_video=False, download_location=download_location))
     btn2.grid(row=0, column=1, padx=10)
 
     # Exit button
@@ -75,3 +83,18 @@ def PopupWindow(title):
     exit_btn.pack(pady=5)
 
     popup.mainloop()
+
+class TwoInputDialog(simpledialog.Dialog):
+    def body(self, master):
+        ttk.Label(master, text="YouTube Link:").grid(row=0)
+        ttk.Label(master, text="Download Location:").grid(row=1)
+
+        self.link_entry = ttk.Entry(master, width=20)
+        self.link_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        self.location_entry = ttk.Button(master, text="Select Folder", command=filedialog.askdirectory)
+        self.location_entry.grid(row=1, column=1, padx=5, pady=5)
+        return self.link_entry  # initial focus
+
+    def apply(self):
+        self.result = (self.link_entry.get(), self.location_entry)
