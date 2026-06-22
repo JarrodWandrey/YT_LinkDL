@@ -3,7 +3,7 @@ import yt_dlp
 import os
 import clipboard
 
-os.environ["SSL_CERT_FILE"] = ''
+os.environ["SSL_CERT_FILE"] = '' 
 
 def download_link(link: str, is_video: bool, download_location: str):
     if not download_location or download_location == 'Select Folder':
